@@ -125,8 +125,8 @@ def main() -> None:
     df.to_csv('datos_limpios.csv', index=False)
 
     df = pd.read_csv('datos_limpios.csv')
-    nucleos = 4
-    simulaciones = 10
+    nucleos = 16
+    simulaciones = 1000
     jugadores = df["Player"]
     probabilidades = df['Probability']
     album_completo = df.shape[0]
@@ -138,6 +138,8 @@ def main() -> None:
         grafica_1 = []
         grafica_2 = []
         grafica_3 = []
+
+        i = 1
         
         for future in as_completed(futures):
             try:
@@ -145,11 +147,13 @@ def main() -> None:
             except Exception as e:
                 print(f"Error: {e}")
             else:
-                print(f"Result: {result}")
+                print(f"Result: {result} en {i} simulaciones")
                 
                 grafica_1.append(result[0])
                 grafica_2.append(result[1])
                 grafica_3.append(result[2])
+
+                i += 1
         
         graficar_histograma(grafica_1, 1)
         graficar_histograma(grafica_2, 2)
